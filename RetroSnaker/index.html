@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta name="renderer" content="webkit" />
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no" />
+	<meta charset="UTF-8" />
+	<title>贪吃蛇</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+	<link rel="stylesheet" href="./src/css/index.css" />
+</head>
+
+<body>
+	<div class="container">
+		<!-- <h3 class="tip">键盘方向键控制</h3> -->
+		<div class="c-panel">
+			<span id="get_score" class="score">000</span>
+			<span id="max_score" class="score">000</span>
+		</div>
+		<div class="c-drawer" id="drawer_box">
+			<canvas id="canvas" class="d-canvas">Oops,您的浏览器不支持canvas</canvas>
+		</div>
+		<div class="c-controller">
+			<div class="btn-dirbox">
+				<span id="btn_totop" class="dir top"><i class="fa fa-angle-up"></i></span>
+				<span id="btn_toright" class="dir right"><i class="fa fa-angle-right"></i></span>
+				<span id="btn_todown" class="dir down"><i class="fa fa-angle-down"></i></span>
+				<span id="btn_toleft" class="dir left"><i class="fa fa-angle-left"></i></span>
+				<span id="btn_reset" class="middle"></span>
+			</div>
+		</div>
+	</div>
+	<script src="./dist/snake.min.js"></script>
+	<script>
+		function init(e) {
+			let drawerBox = document.getElementById("drawer_box");
+			let canvas = document.getElementById("canvas");
+			let ctx = canvas.getContext("2d");
+			let labGet = document.getElementById("get_score");
+			let labMax = document.getElementById("max_score");
+
+			let VW = window.innerWidth;
+
+			if (VW > 768) {
+				VW = 500;
+			}
+
+			canvas.width = VW;
+			canvas.height = VW;
+			drawerBox.style.height = VW + "px";
+
+			let game = new SnakeGame(canvas, {
+				setScore: (score) => {
+					labGet.innerHTML = score;
+				},
+				setMaxScore: (maxScore) => {
+					labMax.innerHTML = maxScore;
+				}
+			});
+
+			// 初始化UI面板
+			labGet.innerHTML = 0;
+			labMax.innerHTML = 0;
+
+			//  用户操作UI
+			document.addEventListener("keydown", function (ev) {
+				// 左
+				if (ev.keyCode === 37) {
+					game.goLeft();
+				}
+				// 上
+				if (ev.keyCode === 38) {
+					game.goTop();
+				}
+				// 右
+				if (ev.keyCode === 39) {
+					game.goRight();
+				}
+				// 下
+				if (ev.keyCode === 40) {
+					game.goDown();
+				}
+			});
+
+			// btnTotop.addEventListener("touchstart", function () {
+			// 	game.goTop();
+			// });
+			// btnToright.addEventListener("touchstart", function () {
+			// 	game.goRight();
+			// });
+			// btnTodown.addEventListener("touchstart", function () {
+			// 	game.goDown();
+			// });
+			// btnToleft.addEventListener("touchstart", function () {
+			// 	game.goLeft();
+			// });
+
+			// 重新开始
+			// btnReset.onclick = function () {
+			// 	alert("Ready Go!!!");
+			// 	// 页面初始化
+			// 	game.initFunc();
+			// 	labMax.innerHTML = 0;
+			// };
+		}
+
+		window.addEventListener("DOMContentLoaded", init, false);
+	</script>
+</body>
+
+</html>
